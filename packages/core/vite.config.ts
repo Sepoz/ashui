@@ -8,7 +8,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export default defineConfig({
   plugins: [
-    dts({ include: ['src'] }),
+    dts({ include: ['src'], rollupTypes: true, entryRoot: 'src' }),
   ],
   build: {
     lib: {

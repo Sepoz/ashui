@@ -8,12 +8,6 @@ importers:
 
   .:
     devDependencies:
-      '@vitest/coverage-v8':
-        specifier: ^4.1.5
-        version: 4.1.5(vitest@4.1.5)
-      jsdom:
-        specifier: ^29.1.1
-        version: 29.1.1
       oxfmt:
         specifier: latest
         version: 0.48.0
@@ -23,6 +17,15 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+
+  packages/core:
+    devDependencies:
+      '@vitest/coverage-v8':
+        specifier: ^4.1.5
+        version: 4.1.5(vitest@4.1.5)
+      jsdom:
+        specifier: ^29.1.1
+        version: 29.1.1
       vite:
         specifier: ^8.0.12
         version: 8.0.12
