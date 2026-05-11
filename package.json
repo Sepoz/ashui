@@ -1,0 +1,44 @@
+{
+  "name": "ashui",
+  "version": "0.0.1",
+  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/ashui.cjs",
+  "module": "./dist/ashui.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/ashui.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/ashui.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "coverage": "vitest run --coverage",
+    "lint": "oxlint .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt . --check",
+    "typecheck": "tsc --noEmit"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.5",
+    "jsdom": "^29.1.1",
+    "oxfmt": "latest",
+    "oxlint": "latest",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.12",
+    "vite-plugin-dts": "^5.0.0",
+    "vitest": "^4.1.5"
+  }
+}
