@@ -5,7 +5,7 @@ if (!app) throw new Error('#app not found')
 
 app.innerHTML = `
   <main style="font-family: system-ui; padding: 2rem;">
-    <h1>ashui — reactivity demo</h1>
+    <h1>Reactivity demo</h1>
     <p>count: <span id="count"></span></p>
     <p>doubled: <span id="doubled"></span></p>
     <button id="inc">increment</button>

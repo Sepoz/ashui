@@ -1,4 +1,7 @@
-type Subscriber = () => void
+interface Subscriber {
+	execute: () => void
+	deps: Set<Set<Subscriber>>
+}
 
 let currentSubscriber: Subscriber | null = null
 
@@ -9,6 +12,7 @@ export function createSignal<T>(initialValue: T) {
 	function getter() {
 		if (currentSubscriber !== null) {
 			subscribers.add(currentSubscriber)
+			currentSubscriber.deps.add(subscribers)
 		}
 		return value
 	}
@@ -17,17 +21,30 @@ export function createSignal<T>(initialValue: T) {
 		if (Object.is(value, newValue)) return
 
 		value = newValue
-		for (const subscriber of subscribers) {
-			subscriber()
+
+		for (const subscriber of [...subscribers]) {
+			subscriber.execute()
 		}
 	}
 
 	return [getter, setter] as const
 }
 
-export function createEffect(fn: Subscriber) {
-	const previousSubscriber = currentSubscriber
-	currentSubscriber = fn
-	fn()
-	currentSubscriber = previousSubscriber
+export function createEffect(fn: () => void) {
+	const subscriber: Subscriber = {
+		deps: new Set(),
+		execute() {
+			for (const dep of subscriber.deps) dep.delete(subscriber)
+			subscriber.deps.clear()
+
+			const prev = currentSubscriber
+			currentSubscriber = subscriber
+			try {
+				fn()
+			} finally {
+				currentSubscriber = prev
+			}
+		},
+	}
+	subscriber.execute()
 }

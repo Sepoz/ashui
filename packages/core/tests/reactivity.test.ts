@@ -52,4 +52,67 @@ describe('createEffect', () => {
 		setA('a2')
 		expect(fn).toHaveBeenCalledTimes(2)
 	})
+
+	it('drops dependencies that are no longer read after a re-run', () => {
+		const [useA, setUseA] = createSignal(true)
+		const [a, setA] = createSignal(1)
+		const [b, setB] = createSignal(10)
+		const fn = vi.fn(() => (useA() ? a() : b()))
+		createEffect(fn)
+
+		// initial run reads useA + a
+		expect(fn).toHaveBeenCalledTimes(1)
+
+		// switch the branch: effect now reads useA + b, drops a
+		setUseA(false)
+		expect(fn).toHaveBeenCalledTimes(2)
+
+		// writing to a should no longer trigger the effect
+		setA(2)
+		expect(fn).toHaveBeenCalledTimes(2)
+
+		// writing to b should now trigger the effect
+		setB(20)
+		expect(fn).toHaveBeenCalledTimes(3)
+	})
+
+	it('picks up dependencies first read on a re-run', () => {
+		const [gate, setGate] = createSignal(false)
+		const [value, setValue] = createSignal('hello')
+		const seen: string[] = []
+		createEffect(() => {
+			seen.push(gate() ? value() : 'closed')
+		})
+
+		// value was never read on the initial run
+		setValue('ignored')
+		expect(seen).toEqual(['closed'])
+
+		// open the gate — now value gets tracked
+		setGate(true)
+		expect(seen).toEqual(['closed', 'ignored'])
+
+		setValue('world')
+		expect(seen).toEqual(['closed', 'ignored', 'world'])
+	})
+
+	it('cleans up subscriptions across multiple branch flips', () => {
+		const [flag, setFlag] = createSignal(true)
+		const [x, setX] = createSignal(0)
+		const [y, setY] = createSignal(0)
+		const fn = vi.fn(() => (flag() ? x() : y()))
+		createEffect(fn)
+
+		setFlag(false) // now tracks y
+		setFlag(true) // back to x
+		setFlag(false) // back to y
+		expect(fn).toHaveBeenCalledTimes(4)
+
+		const callsBefore = fn.mock.calls.length
+		setX(99) // x is not tracked right now
+		expect(fn).toHaveBeenCalledTimes(callsBefore)
+
+		setY(99)
+		expect(fn).toHaveBeenCalledTimes(callsBefore + 1)
+	})
 })
