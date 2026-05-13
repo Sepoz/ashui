@@ -1,22 +1,24 @@
 {
-  "name": "ashui",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "pnpm -r build",
-    "test": "pnpm -r --parallel test:run",
-    "lint": "oxlint .",
-    "format": "oxfmt .",
-    "format:check": "oxfmt . --check",
-    "typecheck": "pnpm -r --parallel typecheck"
-  },
-  "devDependencies": {
-    "oxfmt": "latest",
-    "oxlint": "latest",
-    "typescript": "^6.0.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
-  }
+	"name": "ashui",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "pnpm -r build",
+		"test": "pnpm -r --parallel test:run",
+		"lint": "oxlint .",
+		"format": "oxfmt .",
+		"format:check": "oxfmt . --check",
+		"typecheck": "pnpm -r --parallel typecheck"
+	},
+	"devDependencies": {
+		"oxfmt": "latest",
+		"oxlint": "latest",
+		"typescript": "^6.0.3"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	}
 }

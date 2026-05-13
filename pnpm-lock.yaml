@@ -18,6 +18,16 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  examples/basic:
+    dependencies:
+      '@ashui/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+    devDependencies:
+      vite:
+        specifier: ^8.0.12
+        version: 8.0.12
+
   packages/core:
     devDependencies:
       '@vitest/coverage-v8':

@@ -1,9 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "allowImportingTsExtensions": true
-  },
-  "include": ["src", "tests"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"allowImportingTsExtensions": true
+	},
+	"include": ["src", "tests"],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }
